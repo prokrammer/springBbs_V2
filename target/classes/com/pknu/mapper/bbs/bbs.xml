@@ -34,21 +34,21 @@
 <!-- 			FROM bbs  -->
 <!-- 			WHERE article_num=#{articleNum} -->
 <!-- 	</select> -->
-    <update id="posUpdate" parameterType="article">
-        update bbs1 set pos = pos + 1 where pos > #{pos} and group_id = #{groupId}
-    </update>
+<!--     <update id="posUpdate" parameterType="article"> -->
+<!--         update bbs1 set pos = pos + 1 where pos > #{pos} and group_id = #{groupId} -->
+<!--     </update> -->
     <insert id="reply" parameterType="article">
-        insert into bbs1 values(ARTICLE_NUM_SEQUENCE.NEXTVAL,#{id},#{title},#{content},#{depth} + 1,0,#{groupId},#{pos} + 1,sysdate,#{fname})
+        insert into bbs1 values(BBS1_SEQ.NEXTVAL,#{id},#{title},#{content},#{depth} + 1,0,#{articleNum},sysdate,#{fileStatus})
     </insert>
 
     <delete id="delete" parameterType="String">
-        delete from bbs1 where article_num = #{articleNum}
+        delete from bbs1 where articleNum = #{articleNum}
     </delete>
     <select id="getUpdateArticle" parameterType="String" resultType="article">
-		SELECT TITLE, CONTENT, ARTICLE_NUM articleNum FROM BBS1 WHERE ARTICLE_NUM=#{articleNum}
+		SELECT TITLE, CONTENT, ARTICLENUM FROM BBS1 WHERE ARTICLENUM=#{articleNum}
 		</select>
     <update id="updateArticle" parameterType="HashMap">
-        update bbs1 set title = #{title}, content = #{content} where article_Num = #{articleNum}
+        update bbs1 set title = #{title}, content = #{content} where articleNum = #{articleNum}
     </update>
 
     <select id="joinCheck" parameterType="String" resultType="String">

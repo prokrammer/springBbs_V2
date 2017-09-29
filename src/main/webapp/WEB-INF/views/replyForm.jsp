@@ -16,16 +16,17 @@
 </head>
 <body> 
 뎁스:${replyDto.depth }<br>
-포지션:${replyDto.pos }<br>
+<%-- 포지션:${replyDto.pos }<br> --%>
 페이지넘:${pageNum }<br>
 그룹아이디:${replyDto.groupId }<br>
 <div class="col-md-3 col-sm-2"></div>
 <div class="col-md-6 col-sm-8">
 <center>
 <form action="/bbs/reply.bbs" method="post">
+	<input type="hidden" name="articleNum" value="${replyDto.articleNum}">
 	<input type="hidden" name="pageNum" value="${pageNum}">                 
     <input type="hidden" name="depth" value="${replyDto.depth}">
-    <input type="hidden" name="pos" value="${replyDto.pos}">
+<%--     <input type="hidden" name="pos" value="${replyDto.pos}"> --%>
     <input type="hidden" name="groupId" value="${replyDto.groupId}">
 	<table border="2" class = "table table-bordered">  
 		<tr>

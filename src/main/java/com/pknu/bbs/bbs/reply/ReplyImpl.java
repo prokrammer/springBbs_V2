@@ -1,7 +1,6 @@
 package com.pknu.bbs.bbs.reply;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 
@@ -22,10 +21,10 @@ public class ReplyImpl implements BBSReply {
 	
 	
 	@Override
-	public void reply(Model model,String depth, String pos, String groupId, String title, String content, String id) throws ServletException, IOException {
-		BBSDto article = new BBSDto();
+	public void reply(Model model, BBSDto article/*String depth, String articleNum,String pos, String groupId, String title, String content*/, String id){
+/*		BBSDto article = new BBSDto();
 		
-		
+		article.setArticleNum(Integer.parseInt(articleNum));
 		article.setDepth(Integer.parseInt(depth));
 //		article.setPos(Integer.parseInt(pos));
 		article.setGroupId(Integer.parseInt(groupId));
@@ -33,14 +32,14 @@ public class ReplyImpl implements BBSReply {
 
 		article.setTitle(title);
 		article.setContent(content);
-		article.setId(id);
+*/		article.setId(id);
 		System.out.println(article);
 
-		HashMap<Object,Object> paramMap = new HashMap<>();
+//		HashMap<Object,Object> paramMap = new HashMap<>();
 //		paramMap.put("pos", article.getPos());
-		paramMap.put("groupId", article.getGroupId());
+//		paramMap.put("groupId", article.getGroupId());
 		
-		bbsdao.posUpdate(paramMap);
+//		bbsdao.posUpdate(paramMap);
 		bbsdao.reply(article);
 	}
 

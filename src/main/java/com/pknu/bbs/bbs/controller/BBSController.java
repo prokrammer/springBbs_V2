@@ -137,16 +137,17 @@ public class BBSController {
 		req.setAttribute("pageNum", pageNum);*/
 		/*System.out.println("µª½º : " + bd.getDepth());
 		System.out.println(bd);*/
+		System.out.println(bd);
 		model.addAttribute("replyDto", bd);
 		model.addAttribute("pageNum", pageNum);
 		return "replyForm"; 
 	}
 	
 	@RequestMapping(value="/reply.bbs", method=RequestMethod.POST)
-	public String reply(String pageNum, Model model, String depth, String pos, String groupId, String title, String content, HttpSession session) {
+	public String reply(String pageNum, Model model, BBSDto article,/*String articleNum, String depth, String pos, String groupId, String title, String content, */HttpSession session) {
 		String id = (String)session.getAttribute("id");
 		try {
-			bbsreply.reply(model, depth, pos, groupId, title, content, id);
+			bbsreply.reply(model, article/*articleNum, depth, pos, groupId, title, content*/, id);
 		} catch (ServletException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

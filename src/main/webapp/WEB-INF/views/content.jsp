@@ -113,13 +113,13 @@ function showHtml(data,commPageNum){
 <div class="col-md-3 col-sm-2"></div>
 <div class="col-md-6 col-sm-8">
 ${pageNum }<br/>
-뎁스 : ${depth }<br/>
-그룹아이디 : ${groupId }<br/>
+뎁스 : ${article.depth }<br/>
 그룹아이디 : ${article.groupId }<br/>  
    <form action="/bbs/replyForm.bbs" method="post">      
-    <input type="hidden" name="pageNum" value="${pageNum}">                 
+    <input type="hidden" name="pageNum" value="${pageNum}">
+    <input type="hidden" name="articleNum" value="${article.articleNum}">                 
     <input type="hidden" name="depth" value="${article.depth}">
-    <input type="hidden" name="groupId" value="${article.groupId}">
+<%--     <input type="hidden" name="groupId" value="${article.groupId}"> --%>
 	<table class = "table table-bordered" border="1" width="500" align="center">  
 		<tr>
  			 <td width="40">글쓴이</td> <td width="100">${article.id}</td> 			 
