@@ -1,5 +1,7 @@
 package com.pknu.bbs.bbs.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -8,13 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pknu.bbs.bbs.dto.BBSDto;
+import com.pknu.bbs.bbs.dto.UploadDto;
 import com.pknu.bbs.bbs.join.BBSJoin;
 import com.pknu.bbs.bbs.login.BBSLogin;
 import com.pknu.bbs.bbs.reply.BBSReply;
@@ -38,6 +44,9 @@ public class BBSController {
 	
 	@Autowired
 	private BBSReply bbsreply;
+	
+	@Autowired
+	private FileSystemResource fileSystemResource;
 	
 	@RequestMapping(value="/list.bbs")
 		public String list(int pageNum, Model model) {
@@ -71,8 +80,35 @@ public class BBSController {
 	}
 //	value값은 method를 요청하지 않을 경우 굳이 안써도 된다
 	@RequestMapping(value="/write.bbs", method=RequestMethod.POST)
-	public String write(/*HttpServletRequest req*/BBSDto article, HttpSession session) {
+	public String write(/*HttpServletRequest req*/BBSDto article, HttpSession session, UploadDto uploadDto, BindingResult result) {
 //		매개변수로 DTO를 받아오면  Spring에서는 저절로 jsp에 있는 값중 DTO에 있는 파라미터와 일치하는 값이 저절로 DTO 안에 값이 넣어진체 넘어온다. 		
+		
+		
+		if(result.hasErrors()) {
+			for(ObjectError error : result.getAllErrors()) {
+				System.err.println("Error:" + error.getCode() + " - " + error.getDefaultMessage());
+			}
+			return "writeForm";
+		}
+		
+		if(!uploadDto.getFileData().isEmpty()) {
+			String originFname = uploadDto.getFileData().getOriginalFilename();
+			String imgExt = originFname.substring(originFname.lastIndexOf(".") + 1, originFname.length());
+		
+			try {
+				byte[] bytes = uploadDto.getFileData().getBytes();
+				File outFileName = new File(fileSystemResource.getPath() + "_" + originFname);
+				FileOutputStream fos = new FileOutputStream(outFileName);
+				fos.write(bytes);
+				fos.close();
+			} catch (IOException e) {
+				System.err.println("File writing error!");
+			}
+			System.err.println("File upload success!");
+			article.setFileStatus(1);
+		}
+		
+		
 		System.out.println(article);
 		article.setId((String)session.getAttribute("id"));
 		try {

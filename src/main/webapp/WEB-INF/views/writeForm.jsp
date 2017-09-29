@@ -17,7 +17,7 @@
 <div class="col-md-3 col-sm-2"></div>
 <div class="col-md-6 col-sm-8">
 <center>
-<form action="/bbs/write.bbs" method="post"><!-- enctype="multipart/form-data"을 일시적으로 빼놓았다  -->
+<form action="/bbs/write.bbs" method="post" enctype="multipart/form-data"><!-- enctype="multipart/form-data"을 일시적으로 빼놓았다  -->
 <input type="hidden" name="pageNum" value="${pageNum}">
 	<table border="2" class = "table table-bordered">  
 		<tr>
@@ -30,7 +30,7 @@
 		  <td colspan="2"> <textarea style="width:100%" rows="20" name="content" ></textarea></td>
 	    </tr> 	    
 	    <tr>
-	      <td>첨부 : </td><td><input type="file" name="fname"></td>
+	      <td>첨부 : </td><td><input type="file" id="fileData" name="fileData"></td>
 	    </tr>
 	    <tr>
 	      <td><input type="submit" value="글쓰기"></td>
