@@ -1,6 +1,7 @@
 package com.pknu.bbs.bbs.write;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.pknu.bbs.bbs.dao.BBSDao;
 import com.pknu.bbs.bbs.dto.BBSDto;
+import com.pknu.bbs.bbs.dto.UploadDto;
 @Service
 public class BBSWriteImpl implements BBSWrite {
 	
@@ -54,6 +56,16 @@ public class BBSWriteImpl implements BBSWrite {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "/list.bbs?pageNum=1";
+	}
+
+	@Override
+	public String writeUpload(BBSDto article, UploadDto uploadDto) {
+		// TODO Auto-generated method stub
+		HashMap hm = new HashMap<>();
+		hm.put("article", article);
+		hm.put("uploadDto", uploadDto);
+		bbsdao.writeUpload(hm);
 		return "/list.bbs?pageNum=1";
 	}
 	

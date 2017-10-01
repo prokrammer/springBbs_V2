@@ -6,7 +6,7 @@ public class UploadDto {
 	private int fileNum;
 	private String originFname;
 	private String storedFname;
-	private int fileLength;
+	private long fileLength;
 	private int articleNum;
 	
 	private CommonsMultipartFile fileData;
@@ -29,16 +29,16 @@ public class UploadDto {
 	public void setStoredFname(String storedFname) {
 		this.storedFname = storedFname;
 	}
-	public int getFileLength() {
-		return fileLength;
-	}
 	public CommonsMultipartFile getFileData() {
 		return fileData;
 	}
 	public void setFileData(CommonsMultipartFile fileData) {
 		this.fileData = fileData;
 	}
-	public void setFileLength(int fileLength) {
+	public long getFileLength() {
+		return fileLength;
+	}
+	public void setFileLength(long fileLength) {
 		this.fileLength = fileLength;
 	}
 	public int getArticleNum() {
@@ -46,6 +46,11 @@ public class UploadDto {
 	}
 	public void setArticleNum(int articleNum) {
 		this.articleNum = articleNum;
+	}
+	@Override
+	public String toString() {
+		return "UploadDto [fileNum=" + fileNum + ", originFname=" + originFname + ", storedFname=" + storedFname
+				+ ", fileLength=" + fileLength + ", articleNum=" + articleNum + ", fileData=" + fileData + "]";
 	}
 	
 }

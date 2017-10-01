@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import com.pknu.bbs.bbs.common.Page;
 import com.pknu.bbs.bbs.dao.BBSDao;
 import com.pknu.bbs.bbs.dto.BBSDto;
+import com.pknu.bbs.bbs.dto.UploadDto;
 import com.pknu.bbs.comment.dao.CommentDao;
 
 @Service
@@ -75,12 +76,19 @@ public class BBSServiceImpl implements BBSService {
 	
 	@Override
 	public void content(String pageNum, String articleNum, Model model) {
+		UploadDto uploadDto = null;
+		ArrayList<UploadDto> uploadList;
 		BBSDto article = new BBSDto();
 		try {
 			article = bbsDao.getContent(articleNum);
-			
 			article.setCommentCount((long)bbsDao.commentsCount(Integer.parseInt(articleNum)));
 			
+			if(article.getFileStatus()==1) {
+				uploadList = new ArrayList<>();
+				uploadList = (ArrayList<UploadDto>) bbsDao.getFileStatus(articleNum);
+				System.out.println(uploadList);
+				model.addAttribute("uploadList",uploadList);
+			}
 			model.addAttribute("article", article);
 		} catch (NumberFormatException | SQLException e) {
 			e.printStackTrace();

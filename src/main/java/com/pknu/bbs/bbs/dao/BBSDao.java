@@ -2,12 +2,14 @@ package com.pknu.bbs.bbs.dao;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
 
 import com.pknu.bbs.bbs.dto.BBSDto;
+import com.pknu.bbs.bbs.dto.UploadDto;
 
 public interface BBSDao {
 
@@ -39,5 +41,9 @@ public interface BBSDao {
 	void reply(BBSDto article);
 	
 	int commentsCount(int articleNum);
+
+	void writeUpload(HashMap hm);
+
+	List<UploadDto> getFileStatus(String articleNum);
 
 }

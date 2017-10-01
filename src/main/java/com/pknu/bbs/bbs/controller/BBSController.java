@@ -1,9 +1,11 @@
 package com.pknu.bbs.bbs.controller;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +84,8 @@ public class BBSController {
 	@RequestMapping(value="/write.bbs", method=RequestMethod.POST)
 	public String write(/*HttpServletRequest req*/BBSDto article, HttpSession session, UploadDto uploadDto, BindingResult result) {
 //		매개변수로 DTO를 받아오면  Spring에서는 저절로 jsp에 있는 값중 DTO에 있는 파라미터와 일치하는 값이 저절로 DTO 안에 값이 넣어진체 넘어온다. 		
-		
+		System.out.println(article);
+		article.setId((String)session.getAttribute("id"));
 		
 		if(result.hasErrors()) {
 			for(ObjectError error : result.getAllErrors()) {
@@ -93,24 +96,39 @@ public class BBSController {
 		
 		if(!uploadDto.getFileData().isEmpty()) {
 			String originFname = uploadDto.getFileData().getOriginalFilename();
-			String imgExt = originFname.substring(originFname.lastIndexOf(".") + 1, originFname.length());
-		
+			/*String imgExt = originFname.substring(originFname.lastIndexOf(".") + 1, originFname.length());*/
+			/*System.out.println(originFname);
+			System.out.println(System.currentTimeMillis());*/
+			/*for (int i=0;i<10;i++){
+	            System.out.println(UUID.randomUUID().toString());
+//	            System.out.println(UUID.randomUUID().toString().replace("-", ""));
+	        }*/
 			try {
+				String uuid = UUID.randomUUID().toString();
+				String storedFname = uuid + "_" + originFname;
+				
+				uploadDto.setFileLength(uploadDto.getFileData().getSize());
+				uploadDto.setOriginFname(originFname);
+				uploadDto.setStoredFname(storedFname);
+				
 				byte[] bytes = uploadDto.getFileData().getBytes();
-				File outFileName = new File(fileSystemResource.getPath() + "_" + originFname);
+				File outFileName = new File(fileSystemResource.getPath()+storedFname);
+				System.out.println(outFileName);
 				FileOutputStream fos = new FileOutputStream(outFileName);
-				fos.write(bytes);
+				BufferedOutputStream bos = new BufferedOutputStream(fos);
+				bos.write(bytes);
+				bos.close();
 				fos.close();
 			} catch (IOException e) {
 				System.err.println("File writing error!");
 			}
 			System.err.println("File upload success!");
 			article.setFileStatus(1);
-		}
+			bbswrite.writeUpload(article,uploadDto);
+		}else {
+		/*
+		*/
 		
-		
-		System.out.println(article);
-		article.setId((String)session.getAttribute("id"));
 		try {
 			bbswrite.write(article);
 		} catch (ServletException e) {
@@ -120,6 +138,11 @@ public class BBSController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		/*
+		*/
+		}//else end
+		
 		return "redirect:list.bbs?pageNum=1";
 	}
 	@RequestMapping(value="/content.bbs")
