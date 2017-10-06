@@ -1,14 +1,20 @@
 package com.pknu.bbs.bbs.service;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -36,6 +42,8 @@ public class BBSServiceImpl implements BBSService {
 	@Resource(name="pageBlock")
 	Integer pageBlock;
 	
+	@Autowired
+	private FileSystemResource fileSystemResource;
 	
 	@Override
 	public void list(int pageNum, Model model) {
@@ -133,5 +141,30 @@ public class BBSServiceImpl implements BBSService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void download(String storedFname, HttpServletResponse resp) {
+		UploadDto uploadDto = bbsDao.getDownloadStatus(storedFname);
+		
+			try {
+				byte fileByte[] = FileUtils.readFileToByteArray(new File(fileSystemResource.getPath()+storedFname));
+				resp.setContentType("application/octet-stream");
+				resp.setContentLength(fileByte.length);
+				resp.setHeader("Content-Disposition", "attachment; fileName=\""+ URLEncoder.encode(uploadDto.getOriginFname(),"UTF-8")+"\";");
+				resp.setHeader("Content-Transfer-Encoding","binary");
+				resp.getOutputStream().write(fileByte);
+				
+				resp.getOutputStream().flush();
+				resp.getOutputStream().close();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
+	
 
 }

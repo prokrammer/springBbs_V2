@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,6 +146,13 @@ public class BBSController {
 		
 		return "redirect:list.bbs?pageNum=1";
 	}
+	@RequestMapping(value="/download.bbs")
+	public void download(String storedFname, HttpServletResponse resp) {
+		System.out.println(storedFname);
+		bbsService.download(storedFname, resp);
+	}
+	
+	
 	@RequestMapping(value="/content.bbs")
 	public String content(@RequestParam("pageNum") String pageNum, 
 			@RequestParam String articleNum, Model model) {

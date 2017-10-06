@@ -134,7 +134,7 @@ ${pageNum }<br/>
 			<td colspan="2">
 <%-- 			<a href="/bbs/download.bbs?fname=${article.fileStatus}">${article.fileStatus}</a></td> --%>
    			<c:forEach var="uploadList" items="${uploadList}">
-	  			<a href="/bbs/download.bbs?fname=${uploadList.storedFname}" target="_blank"><c:out value="${uploadList.originFname}"/><br/></a>
+	  			<a href="/bbs/download.bbs?storedFname=${uploadList.storedFname}" target="_blank"><c:out value="${uploadList.originFname}"/><br/></a>
 	  		</c:forEach>
 		 </tr>					
 		 <tr>			 

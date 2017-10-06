@@ -46,4 +46,6 @@ public interface BBSDao {
 
 	List<UploadDto> getFileStatus(String articleNum);
 
+	UploadDto getDownloadStatus(String fname);
+
 }
