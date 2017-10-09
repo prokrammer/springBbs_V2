@@ -48,8 +48,11 @@ public interface BBSDao {
 
 	List<UploadDto> getFileStatus(String articleNum);
 
+<<<<<<< HEAD
 	UploadDto getDownloadStatus(String fname);
 	@Transactional
 	void fileUpload(HashMap<String, Object> hm);
 
+=======
+>>>>>>> parent of 987206e... V5.2
 }

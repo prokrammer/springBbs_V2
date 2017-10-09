@@ -74,8 +74,4 @@
     <select id="commentsCount" parameterType="Integer" resultType="Integer">
     	select count(*) from comments1 where articlenum = #{articleNum}
     </select>
-    
-    <select id="getDownloadStatus" parameterType="String" resultType="com.pknu.bbs.bbs.dto.UploadDto">
-    		select * from FILELIST where storedFname=#{storedFname}
-    </select>
 </mapper>
