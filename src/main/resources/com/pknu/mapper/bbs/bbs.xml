@@ -32,6 +32,10 @@
 	into FILELIST values(file_seq.nextval,#{uploadDto.originFname},#{uploadDto.storedFname},#{uploadDto.fileLength},BBS1_SEQ.currval)
 	select * from dual
     </insert>
+    <insert id="fileUpload" parameterType="HashMap">
+    	INSERT INTO
+    	FILELIST values(file_seq.nextval,#{originFname},#{storedFname},#{fileSize},BBS1_SEQ.currval)
+    </insert>
     <select id="getContent" parameterType="String" resultType="article">
 			SELECT articleNum, id, title, content, depth, 
 				   hit, groupId, writeDate, fileStatus 
